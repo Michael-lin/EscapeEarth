@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Assets\EnvGenerator.cs" />
     <Compile Include="Assets\Forest.cs" />
+    <Compile Include="Assets\PlayerMove.cs" />
     <Compile Include="Assets\Tags.cs" />
     <Compile Include="Assets\WayPoint.cs" />
     <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />

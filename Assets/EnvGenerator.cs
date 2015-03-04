@@ -3,8 +3,8 @@ using System.Collections;
 
 public class EnvGenerator : MonoBehaviour {
 
-    public Forest forest1;
-    public Forest forest2;
+    public Forest curForest;
+    public Forest nextForest;
     public GameObject[] forests;
     int forestCount = 2;
 
@@ -14,7 +14,7 @@ public class EnvGenerator : MonoBehaviour {
         int type = Random.Range(0, 3);
         GameObject newForest = GameObject.Instantiate(forests[type], new Vector3(0, 0, 3000 * forestCount), Quaternion.identity) as GameObject;
 
-        forest1 = forest2;
-        forest2 = newForest.GetComponent<Forest>();
+        curForest = nextForest;
+        nextForest = newForest.GetComponent<Forest>();
     }
 }
