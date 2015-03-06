@@ -9,7 +9,7 @@ public class Forest : MonoBehaviour {
     public float maxLength = 200;
 
     Transform player;
-    WayPoint wayPoint;
+    public WayPoint wayPoint;
     int wayPointsIndex;
     EnvGenerator envGenerator;
 
@@ -73,18 +73,23 @@ public class Forest : MonoBehaviour {
         return Vector3.Lerp(points[index].position, points[index + 1].position, (z - points[index].position.z) / (points[index + 1].position.z - points[index].position.z));
     }
 
-    Vector3 GetNextTargetPos()
+    public Vector3 GetNextTargetPos()
     {        
         while (true)
         {
-            if ((wayPoint.points[wayPointsIndex].position - player.position).sqrMagnitude < 100)
+            if ((wayPoint.points[wayPointsIndex].position.z - player.position.z) < 10)
             {
                 wayPointsIndex--;
                 if (wayPointsIndex < 0)
                 {
-                    
+                    Destroy(this.gameObject, 2);
                     envGenerator.GenerateForest();
+                    return envGenerator.curForest.GetNextTargetPos();
                 }
+            }
+            else
+            {
+                return wayPoint.points[wayPointsIndex].position;
             }
         }
     }
