@@ -57,6 +57,8 @@
     <Compile Include="Assets\GameController.cs" />
     <Compile Include="Assets\PlayerAnimation.cs" />
     <Compile Include="Assets\PlayerMove.cs" />
+    <Compile Include="Assets\RunCollider.cs" />
+    <Compile Include="Assets\SlideCollider.cs" />
     <Compile Include="Assets\Tags.cs" />
     <Compile Include="Assets\WayPoint.cs" />
     <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />

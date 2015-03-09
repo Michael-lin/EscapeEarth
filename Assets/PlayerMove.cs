@@ -9,10 +9,20 @@ public class PlayerMove : MonoBehaviour {
     float horizontalMoveDistance;
     EnvGenerator envGenerator;
     Vector3 lastTouchPos;
-    int laneIndex = 1;
-    int targetLaneIndex;
+    public int laneIndex = 1;
+    public int targetLaneIndex;
     float[] laneOffsetX = new float[] { -laneOffest, 0, laneOffest };
     float horizontalMoveSpeed = 6;
+    public bool isSliding = false;
+    public float slideTime = 1.4f;
+    float hasSlidedTime;
+    public bool isJumping = false;
+    bool isUp = false;
+    public float jumpSpeed = 50;
+    float hasJumpedHeight;
+    public float maxJumpHeight = 20;
+    Transform player;
+    public AudioSource landSound;
     enum TouchDirection
     {
         NONE,
@@ -23,6 +33,7 @@ public class PlayerMove : MonoBehaviour {
     }
 	void Awake () {
         envGenerator = Camera.main.GetComponent<EnvGenerator>();
+        player = transform.Find("Prisoner").transform;
         targetLaneIndex = laneIndex;
 	}
 	
@@ -75,10 +86,14 @@ public class PlayerMove : MonoBehaviour {
                 {
                     if (offset.y > 0)
                     {
+                        isJumping = true;
+                        isUp = true;
+                        hasJumpedHeight = 0;
                         return TouchDirection.UP;
                     }
                     else
                     {
+                        isSliding = true;
                         return TouchDirection.DOWN;
                     } 
                 }
@@ -93,7 +108,6 @@ public class PlayerMove : MonoBehaviour {
         TouchDirection touchDir = GetTouchDiretion();
         if (laneIndex != targetLaneIndex)
         {
-            //envGenerator.curForest.wayPoint.transform.position += new Vector3(laneOffsetX[laneIndex], 0, 0);
             float moveLenght = Mathf.Lerp(0, horizontalMoveDistance, Time.deltaTime * horizontalMoveSpeed);
 
             transform.position += new Vector3(moveLenght, 0, 0);
@@ -105,19 +119,41 @@ public class PlayerMove : MonoBehaviour {
                 laneIndex = targetLaneIndex;
             }
         }
-        switch (touchDir)
-        {
-            case TouchDirection.LEFT:               
 
-                break;
-            case TouchDirection.RIGHT:
-                break;
-            case TouchDirection.UP:
-                break;
-            case TouchDirection.DOWN:
-                break;
-            default:
-                break;
+        if (isSliding)
+        {
+            hasSlidedTime += Time.deltaTime;
+        }
+        if (hasSlidedTime > slideTime)
+        {
+            hasSlidedTime = 0;
+            isSliding = false;
+        }
+
+        if (isJumping)
+        {
+            if (isUp)
+            {
+                hasJumpedHeight += jumpSpeed * Time.deltaTime;
+                player.position += new Vector3(0, jumpSpeed * Time.deltaTime, 0);
+                if (hasJumpedHeight - maxJumpHeight > 0)
+                {
+                    player.position -= new Vector3(0, hasJumpedHeight - maxJumpHeight, 0);
+                    hasJumpedHeight = 0;
+                    isUp = false;
+                }
+            }
+            else
+            {
+                hasJumpedHeight += jumpSpeed * Time.deltaTime;
+                player.position -= new Vector3(0, jumpSpeed * Time.deltaTime, 0);
+                if (hasJumpedHeight - maxJumpHeight > 0)
+                {
+                    player.position += new Vector3(0, hasJumpedHeight - maxJumpHeight, 0);
+                    isJumping = false;
+                    landSound.Play();
+                }
+            }
         }
     }
 }
