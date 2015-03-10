@@ -51,16 +51,18 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\EnvGenerator.cs" />
-    <Compile Include="Assets\FollowPlayer.cs" />
-    <Compile Include="Assets\Forest.cs" />
-    <Compile Include="Assets\GameController.cs" />
-    <Compile Include="Assets\PlayerAnimation.cs" />
-    <Compile Include="Assets\PlayerMove.cs" />
-    <Compile Include="Assets\RunCollider.cs" />
-    <Compile Include="Assets\SlideCollider.cs" />
-    <Compile Include="Assets\Tags.cs" />
-    <Compile Include="Assets\WayPoint.cs" />
+    <Compile Include="Assets\Scripts\EnvGenerator.cs" />
+    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Forest.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\PlayerAnimation.cs" />
+    <Compile Include="Assets\Scripts\PlayerMove.cs" />
+    <Compile Include="Assets\Scripts\PoliceCar.cs" />
+    <Compile Include="Assets\Scripts\RunCollider.cs" />
+    <Compile Include="Assets\Scripts\SirenRotate.cs" />
+    <Compile Include="Assets\Scripts\SlideCollider.cs" />
+    <Compile Include="Assets\Scripts\Tags.cs" />
+    <Compile Include="Assets\Scripts\WayPoint.cs" />
     <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
     <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
     <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransform.cs" />

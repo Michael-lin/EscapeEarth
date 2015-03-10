@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour {
         {
             if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log("GameControl button down");
                 gameState = GameState.Playing;
                 tapToStart.SetActive(false);
             }

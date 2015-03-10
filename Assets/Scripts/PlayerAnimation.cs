@@ -34,6 +34,10 @@ public class PlayerAnimation : MonoBehaviour {
         else if (GameController.gameState == GameController.GameState.Playing)
         {
             animationState = AnimationState.Run;
+            if (playerMove.isJumping)
+            {
+                animationState = AnimationState.Jump;
+            }
             if (playerMove.targetLaneIndex > playerMove.laneIndex)
             {
                 animationState = AnimationState.TurnRight;
@@ -45,11 +49,6 @@ public class PlayerAnimation : MonoBehaviour {
             if (playerMove.isSliding)
             {
                 animationState = AnimationState.Slide;
-            }
-
-            if (playerMove.isJumping)
-            {
-                animationState = AnimationState.Jump;
             }
 
             if (animationState == AnimationState.Run)
@@ -68,6 +67,10 @@ public class PlayerAnimation : MonoBehaviour {
                 }               
             }
         }
+        else if (GameController.gameState == GameController.GameState.End)
+        {
+            animationState = AnimationState.Death;
+        }
 	}
 
     void LateUpdate()
@@ -81,10 +84,11 @@ public class PlayerAnimation : MonoBehaviour {
                 PlayAnimation("run");
                 break;
             case AnimationState.TurnLeft:
-
+                playerAnimation["left"].speed = 2;
                 PlayAnimation("left");
                 break;
             case AnimationState.TurnRight:
+                playerAnimation["right"].speed = 2;
                 PlayAnimation("right");
                 break;
             case AnimationState.Jump:

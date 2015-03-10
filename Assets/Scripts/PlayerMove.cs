@@ -20,7 +20,7 @@ public class PlayerMove : MonoBehaviour {
     bool isUp = false;
     public float jumpSpeed = 50;
     float hasJumpedHeight;
-    public float maxJumpHeight = 20;
+    public float maxJumpHeight = 10;
     Transform player;
     public AudioSource landSound;
     enum TouchDirection
@@ -53,49 +53,54 @@ public class PlayerMove : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("PlayerMove button down");
             lastTouchPos = Input.mousePosition;
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            Vector3 offset = Input.mousePosition - lastTouchPos;
-            if (Mathf.Abs(offset.x) > minTouchMove || Mathf.Abs(offset.y) > minTouchMove)
+            Debug.Log("PlayerMove button up");
+            if (lastTouchPos != Vector3.zero)
             {
-                if (Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
+                Vector3 offset = Input.mousePosition - lastTouchPos;
+                if (Mathf.Abs(offset.x) > minTouchMove || Mathf.Abs(offset.y) > minTouchMove)
                 {
-                    if(offset.x < 0)
+                    if (Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
                     {
-                        if (targetLaneIndex > 0)
+                        if (offset.x < 0)
                         {
-                            --targetLaneIndex;
-                            horizontalMoveDistance = -laneOffest;
+                            if (targetLaneIndex > 0)
+                            {
+                                --targetLaneIndex;
+                                horizontalMoveDistance = -laneOffest;
+                            }
+                            return TouchDirection.LEFT;
                         }
-                        return TouchDirection.LEFT;
+                        else
+                        {
+                            if (targetLaneIndex < 2)
+                            {
+                                ++targetLaneIndex;
+                                horizontalMoveDistance = laneOffest;
+                            }
+                            return TouchDirection.RIGHT;
+                        }
                     }
                     else
                     {
-                        if (targetLaneIndex < 2)
+                        if (offset.y > 0)
                         {
-                            ++targetLaneIndex;
-                            horizontalMoveDistance = laneOffest;
+                            isJumping = true;
+                            isUp = true;
+                            hasJumpedHeight = 0;
+                            return TouchDirection.UP;
                         }
-                        return TouchDirection.RIGHT;
-                    }                    
-                }
-                else
-                {
-                    if (offset.y > 0)
-                    {
-                        isJumping = true;
-                        isUp = true;
-                        hasJumpedHeight = 0;
-                        return TouchDirection.UP;
+                        else
+                        {
+                            isSliding = true;
+                            return TouchDirection.DOWN;
+                        }
                     }
-                    else
-                    {
-                        isSliding = true;
-                        return TouchDirection.DOWN;
-                    } 
                 }
             }
         }
@@ -105,7 +110,7 @@ public class PlayerMove : MonoBehaviour {
 
     void MoveControl()
     {
-        TouchDirection touchDir = GetTouchDiretion();
+        GetTouchDiretion();
         if (laneIndex != targetLaneIndex)
         {
             float moveLenght = Mathf.Lerp(0, horizontalMoveDistance, Time.deltaTime * horizontalMoveSpeed);
